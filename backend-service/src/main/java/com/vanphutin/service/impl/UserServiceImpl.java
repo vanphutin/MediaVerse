@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
         user.setLocation(req.getLocation());
         user.setWebsite(req.getWebsite());
         user.setRole(Role.NORMAL);
-        user.setStatus(UserStatus.ACTIVE);
+        user.setStatus(UserStatus.NORMAL);
 
         userRepository.save(user);
         return user.getId();
