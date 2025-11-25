@@ -1,9 +1,16 @@
 package com.vanphutin.controller.response;
 
-import lombok.Data;
+import com.vanphutin.common.Role;
+import com.vanphutin.common.UserStatus;
+import lombok.*;
+
 import java.util.Date;
 
 @Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 public class UserResponse {
 
     private Long userId;
@@ -11,8 +18,8 @@ public class UserResponse {
     private String email;
 
     private String avatarUrl;
-    private String role;
-    private String status;
+    private Role role;
+    private UserStatus status;
 
     private String bio;
     private String location;
