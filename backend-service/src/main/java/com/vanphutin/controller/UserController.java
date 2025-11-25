@@ -7,11 +7,14 @@ import com.vanphutin.controller.response.UserPageResponse;
 import com.vanphutin.controller.response.UserResponse;
 import com.vanphutin.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -23,12 +26,13 @@ import java.util.Map;
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Slf4j(topic = "USER-CONTROLLER")
+@Validated
 public class UserController {
     private final UserService userService; //  có 3 cách ["1:toan tu new' 2:RequiredArgsConstructor, 3:Autowirde]
 
     @Operation(summary = "Create User", description = "API add new user")
     @PostMapping("/add")
-    public ResponseEntity<Object> createUser(@RequestBody UserCreationRequest request){
+    public ResponseEntity<Object> createUser(@RequestBody @Valid UserCreationRequest request){
         Map<String,Object> result = new LinkedHashMap<>();
         result.put("status",HttpStatus.CREATED.value());
         result.put("message","User created successfully");
@@ -40,7 +44,7 @@ public class UserController {
 
     @Operation(summary = "Update User", description = "API upd  user")
     @PutMapping("/upd")
-    public Map<String, Object> updateUser(@RequestBody UserUpdateRequest request){
+    public Map<String, Object> updateUser(@RequestBody @Valid UserUpdateRequest request){
         log.info("Updating user: {}", request);
 
         userService.update(request);
@@ -54,7 +58,7 @@ public class UserController {
 
     @Operation(summary = "Change password User", description = "API change password user")
     @PatchMapping("/change-pwd")
-    public Map<String, Object> changePassword(@RequestBody UserPasswordRequest request){
+    public Map<String, Object> changePassword(@RequestBody  @Valid UserPasswordRequest request){
         log.info("Changing user: {}", request);
 
         userService.changePassword(request);
@@ -68,7 +72,7 @@ public class UserController {
 
     @Operation(summary = "Detele User", description = "API delete user")
     @DeleteMapping("/del/{userId}")
-    public Map<String, Object> deleteUser(@PathVariable("userId") Long userId){
+    public Map<String, Object> deleteUser(@PathVariable("userId")  @Min(value = 1, message = "userId must be equal or greater than 1") Long userId){
         log.info("Deleting user: {}", userId);
 
         userService.delete(userId);
@@ -81,7 +85,7 @@ public class UserController {
 
     @Operation(summary = "Get user detail ", description = "API get user detail")
     @GetMapping("{userId}")
-    public Map<String, Object> getUserDetails(@PathVariable("userId") Long userId){
+    public Map<String, Object> getUserDetails(@PathVariable("userId") @Min(value = 1, message = "userId must be equal or greater than 1") Long userId){
         log.info("Getting user detail: {}", userId);
         Map<String,Object> result = new LinkedHashMap<>();
         result.put("status",HttpStatus.ACCEPTED.value());
