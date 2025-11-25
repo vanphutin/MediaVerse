@@ -1,14 +1,15 @@
 package com.vanphutin.controller.request;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.ToString;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
-@Data
-public class UserCreationRequest implements Serializable {
+@Getter
+@ToString
+public class UserUpdateRequest implements Serializable {
 
+    private long id;
     private String username;
     private String email;
     private String bio;
