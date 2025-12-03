@@ -34,3 +34,7 @@ build/
 
 ## FRONT-END ##
 client/
+*.application-dev.yml
+application-dev.yml
+*.application-prod.yml
+application-prod.yml
